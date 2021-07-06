@@ -1,4 +1,4 @@
-FROM drupal:8.5-apache
+FROM drupal:8.4.4-apache
 
 # Install packages
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh && \

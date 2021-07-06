@@ -1,4 +1,5 @@
 <?php
+$config['system.logging']['error_level'] = 'verbose';
 
 /**
  * @file
