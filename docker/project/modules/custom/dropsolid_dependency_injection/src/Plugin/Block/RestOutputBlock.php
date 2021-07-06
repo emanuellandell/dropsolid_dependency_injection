@@ -6,6 +6,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\dropsolid_dependency_injection\RestConnectionInterface;
+//use Drupal\dropsolid_dependency_injection\Service;
 
 /**
  * Provides a 'RestOutputBlock' block.
@@ -21,6 +22,7 @@ class RestOutputBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
+
     $build = [
       '#cache' => [
         'max-age' => 60,
@@ -28,17 +30,8 @@ class RestOutputBlock extends BlockBase {
       ]
     ];
 
-    try {
-      $albumId = random_int(1, 20);
-      $response = \Drupal::httpClient()->request('GET', "https://jsonplaceholder.typicode.com/albums/$albumId/photos");
-      $data = $response->getBody()->getContents();
-      $decoded = json_decode($data);
-      if (!$decoded) {
-        throw new \Exception('Invalid data returned from API');
-      }
-    } catch (\Exception $e) {
-      return $build;
-    }
+    $albumId = random_int(1, 20);
+    $decoded = \Drupal::service('dropsolid_dependency_injection.rest_services')->getData($albumId);
 
     foreach ($decoded as $item) {
       $build['rest_output_block']['photos'][] = [

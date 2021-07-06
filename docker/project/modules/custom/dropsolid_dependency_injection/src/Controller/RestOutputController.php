@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\dropsolid_dependency_injection\RestConnectionInterface;
+//use Drupal\dropsolid_dependency_injection\Service;
 
 /**
  * Class RestOutputController
@@ -17,6 +18,7 @@ class RestOutputController {
    * @return array
    */
   public function showPhotos() {
+
     $build = [
       '#cache' => [
         'max-age' => 60,
@@ -24,16 +26,7 @@ class RestOutputController {
       ]
     ];
 
-    try {
-      $response = \Drupal::httpClient()->request('GET', "https://jsonplaceholder.typicode.com/albums/5/photos");
-      $data = $response->getBody()->getContents();
-      $decoded = json_decode($data);
-      if (!$decoded) {
-        throw new \Exception('Invalid data returned from API');
-      }
-    } catch (\Exception $e) {
-      return $build;
-    }
+    $decoded = \Drupal::service('dropsolid_dependency_injection.rest_services')->getData($albumId = 5);
 
     foreach ($decoded as $item) {
       $build['rest_output_block']['photos'][] = [
