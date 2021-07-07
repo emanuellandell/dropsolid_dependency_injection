@@ -1,0 +1,63 @@
+<?php
+use Drupal\Core\Template\Attribute; // this should be at the top of your MY_THEME.theme file
+use Drupal\Core\Link;
+
+function dropsolid_dependency_injection_preprocess_breadcrumb(&$variables) {
+
+  $node = \Drupal::routeMatch()->getParameter('node');
+  $current_path = \Drupal::service('path.current')->getPath();
+
+  // Override breadcrumbs to: Home > Dropsolid > Example > Photos
+  if(!empty($current_path) && $current_path == '/dropsolid/example/photos') {
+    $variables['breadcrumb'] = array();
+
+    $request = \Drupal::request();
+    $route_match = \Drupal::routeMatch();
+    $page_title = \Drupal::service('title_resolver')->getTitle($request, $route_match->getRouteObject());
+
+    $variables['breadcrumb'][] = [
+      'text' => t("Home"),
+      'url' => '/'
+    ];
+
+    $variables['breadcrumb'][] = [
+      'text' => t("Dropsolid"),
+      'url' => '/dropsolid'
+    ];
+
+    $variables['breadcrumb'][] = [
+      'text' => t("Example"),
+      'url' => '/dropsolid/example'
+    ];
+
+    $variables['breadcrumb'][] = [
+      'text' => t("Photos"),
+      'url' => '/dropsolid/example/photos',
+      'attributes' => new Attribute(['class' => ['active']])
+    ];
+  }
+}
+
+/**
+ * Implements hook_system_breadcrumb_alter().
+ */
+function dropsolid_dependency_injection_system_breadcrumb_alter(\Drupal\Core\Breadcrumb\Breadcrumb &$breadcrumb, \Drupal\Core\Routing\RouteMatchInterface $route_match, array $context) {
+  //print_r($breadcrumb);
+  //print_r($route_match);
+
+  if ( $route_match->getRouteName() === 'entity.node.canonical'){
+   $node = $route_match->getParameter('node');
+   if ($node instanceof  Drupal\node\Entity\Node && $node->getType() === 'my_node_type'){
+     // Get the listing view url.
+     $listing_url = Url::fromRoute('view.my_view_id.my_display_id');
+     // Add the listing url to breadcrumbs.
+     $breadcrumb->addLink(Link::fromTextAndUrl(t('Link to view'), $listing_url));
+   }
+  }
+
+  //print_r("links2:");
+  //print_r($breadcrumb->getLinks());
+
+  //$breadcrumb->addLink(Link::fromTextAndUrl(t('EMANUEL'), '#'));
+
+}
