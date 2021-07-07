@@ -1,0 +1,4 @@
+services:
+  dropsolid_dependency_injection.rest_services:
+    class: Drupal\dropsolid_dependency_injection\Service\RestOutputService
+    arguments: []

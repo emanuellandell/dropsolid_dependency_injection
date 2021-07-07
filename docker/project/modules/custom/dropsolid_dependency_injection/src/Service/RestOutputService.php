@@ -16,11 +16,8 @@ class RestOutputService {
    * CustomService constructor.
    * @param AccountInterface $currentUser
    */
-  public function __construct(AccountInterface $currentUser) {
-    $this->currentUser = $currentUser;
+  public function __construct() {
 
-    /* send email test */
-    $this->sendEmail("emanuel@landellgroup.com");
   }
 
   /**
