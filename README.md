@@ -99,5 +99,3 @@ You might want to change some of these. For example, all passwords are set to 12
 Drush and Drupal Console are included in the image.
 
 To use them, exec into the running container with  `docker exec -ti dropsolid_project_1 /bin/bash`.
-
-### About
