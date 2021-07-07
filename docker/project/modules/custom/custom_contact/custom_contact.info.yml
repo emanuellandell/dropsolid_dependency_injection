@@ -1,0 +1,6 @@
+name: Custom Contact Module
+description: Alters MailManager
+package: Custom
+type: module
+version: 1.0
+core: 8.x

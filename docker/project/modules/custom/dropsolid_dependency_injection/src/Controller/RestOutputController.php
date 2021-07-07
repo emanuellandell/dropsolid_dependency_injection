@@ -40,4 +40,23 @@ class RestOutputController {
     return $build;
   }
 
+  function dropsolid_dependency_injection_mail_alter(&$message) {
+
+    $message['to'] = 'blah@doesntexist.com';
+
+/*
+    if ($message['id'] == 'modulename_messagekey') {
+      if (!example_notifications_optin($message['to'], $message['id'])) {
+
+        // If the recipient has opted to not receive such messages, cancel
+        // sending.
+        $message['send'] = FALSE;
+        return;
+      }
+      $message['body'][] = "--\nMail sent out from " . \Drupal::config('system.site')
+        ->get('name');
+    }
+    */
+  }
+
 }

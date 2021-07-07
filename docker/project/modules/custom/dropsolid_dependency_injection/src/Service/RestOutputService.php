@@ -18,8 +18,10 @@ class RestOutputService {
    */
   public function __construct(AccountInterface $currentUser) {
     $this->currentUser = $currentUser;
-  }
 
+    /* send email test */
+    $this->sendEmail("emanuel@landellgroup.com");
+  }
 
   /**
    * @return \Drupal\Component\Render\MarkupInterface|string
